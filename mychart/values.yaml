@@ -43,8 +43,6 @@ resources: {}
 
 nodeSelector: {}
 
-tolerations: []
-
 affinity: {}
 
 livenessProbe:
