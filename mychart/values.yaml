@@ -41,9 +41,9 @@ resources: {}
   #  cpu: 100m
   #  memory: 128Mi
 
-nodeSelector: {"role": "worker"}
+nodeSelector: {}
 
-tolerations: ["a", "b", "c"]
+tolerations: []
 
 affinity: {}
 
