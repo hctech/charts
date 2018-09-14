@@ -24,7 +24,7 @@ spec:
       annotations:
         jvm_exporters: "true"
         prometheus.io/port: {{ .Values.jvmExporter.port | quote }}
-      {{ end -}}
+      {{- end }}
       labels:
         app: {{ include "name" . }}
         release: {{ .Release.Name }}
