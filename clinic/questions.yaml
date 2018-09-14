@@ -35,7 +35,7 @@ questions:
     description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
     label: NodePort Http Port
 - variable: resources.limits.cpu
-  default: "0"
+  default: ""
   type: string
   description: "Resource cpu limts"
   label: Resource cpu limts
