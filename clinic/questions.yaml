@@ -1,0 +1,134 @@
+categories:
+- xingren_java
+questions:
+- variable: image.repository
+  default: "harbor.xingren.com/xr_prod/clinic"
+  require: true 
+  description: "image name"
+  type: string
+  label: image name
+  group: "Container Images"
+- variable: image.tag
+  require: true
+  default: "latest"
+  description: "Clinic image tag"
+  type: string
+  label: Clinic image tag
+  group: "Container Images"
+- variable: service.type
+  default: "ClusterIP"
+  require: true
+  description: "Service Type"
+  label: Service Type
+  type: enum
+  options:
+    - "ClusterIP"
+    - "NodePort"
+    - "LoadBalancer"
+    - "LoadBalancer(Internal)"
+  group: "Services and Load Balancing"
+  show_subquestion_if: "NodePort"
+  subquestions:
+  - variable: service.nodePort
+    type: int
+    min: 30000
+    max: 32767
+    description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
+    label: NodePort Http Port
+  show_subquestion_if: "LoadBalancer"
+  subquestions:
+  - variable: service.port
+    type: int
+    description: "LoadBalancer expose port"
+    label: LoadBalancer expose port
+  show_subquestion_if: "LoadBalancer"
+  - variable: service.qcloudInternalLoadBalancerSubnetid
+    type: string
+    description: "qcloud internal lb subnetid"
+    label: qcloud internal lb subnetid
+  - variable: service.port
+    type: int
+    description: "LoadBalancer expose port"
+    label: LoadBalancer expose port
+- variable: resources.limits.cpu
+  default: "0"
+  type: string
+  description: "Resource cpu limts"
+  label: Resource cpu limts
+  group: Resource Settings
+- variable: resource.limits.memory
+  default: "2G"
+  type: string
+  description: "Resource memory limts"
+  label: Resource memory limts
+  group: Resource Settings
+- variable: resources.requests.cpu
+  default: "0.5"
+  type: string
+  description: "Resource cpu requests"
+  label: Resource cpu requests
+  group: Resource Settings
+- variable: resource.requests.memory
+  default: "2G"
+  type: string
+  description: "Resource memory requests"
+  label: Resource memory requests
+  group: Resource Settings
+- variable: nfsVolumes.create
+  default: "true"
+  require: true
+  type: boolean
+  description: "Mount nfs share dir"
+  label: use nfs share dir
+  group: xingren settings
+  show_subquestion_if: true
+  subquestions:
+  - variable: nfsVolumes.path
+    default: "10.10.9.142"
+    description: "nfs server"
+    lable: nfs server
+  - variable: nfsVolumes.path
+    default: "/xingren_share"
+    descirble: "nfs path"
+    lable: nfs path
+    options:
+      - "/xingren_share"
+      - "/xingren_share_test"
+- variable: jvmExporter.enable
+  default: "true"
+  require: true
+  type: boolean
+  description: "Prometheus scrape jmx_exporter"
+  label: Prometheus scrape jmx_exporter
+  group: xingren settings
+  show_subquestion_if: true
+  subquestions:
+  - variable: jvmExporter.port
+    default: 8888
+    description: "Prometheus scrape jmx_exporter port"
+    lable: Prometheus scrape jmx_exporter port
+- variable: xrLogMetadata.enable
+  default: "true"
+  require: true
+  type: boolean
+  description: "collect log metadata"
+  label: collect log metadata
+  group: xingren settings
+  show_subquestion_if: true
+  subquestions:
+  - variable: xrLogMetadata.appEnv
+    default: "prod"
+    description: "app env"
+    lable: app env
+  - variable: xrLogMetadata.appName
+    default: "clinic"
+    description: "app name"
+    lable: app name
+  - variable: xrLogMetadata.logFormatType
+    default: "java"
+    description: "log format type"
+    lable: log format type
+- variable: jvmArguments
+  description: "jvm starting arguments"
+  label: jvm starting arguments
+  group: xingren settings

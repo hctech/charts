@@ -1,0 +1,89 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ include "fullname" . }}
+  labels:
+    app: {{ include "name" . }}
+    chart: {{ include "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "name" . }}
+      release: {{ .Release.Name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      {{- if .Values.jvmExporter.enable }}
+      annotations:
+        jvm_exporters: "true"
+        prometheus.io/port: {{ .Values.jvmExporter.port | quote }}
+      {{ end -}}
+      labels:
+        app: {{ include "name" . }}
+        release: {{ .Release.Name }}
+        deploy-timestamp: {{ now }}
+        {{- if .Values.xrLogMetadata.enable }}
+        log-appname: {{ .Values.xrLogMetadata.appName }}
+        log-env: {{ .Values.xrLogMetadata.appEnv }}
+        log-format-type: {{ .Values.xrLogMetadata.logFormatType }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MESOS_TASK_ID
+              value: xxxx
+            {{- if not (empty .Values.jvmArguments) }}  
+            - name: DOCKER_JVM_ARGS
+              value: {{ .Values.jvmArguments | quote }}
+            {{- end }}  
+          ports:
+            - name: tcp-{{ .Values.service.targetPort }}
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: {{ .Values.service.targetPort }}
+{{ toYaml .Values.livenessProbe | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /alive
+              port: {{ .Values.service.targetPort }}
+{{ toYaml .Values.readlinessProbe | indent 12 }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          volumeMounts:
+            - mountPath: /data/logs
+              name: logs
+           {{- if .Values.nfsVolumes }}
+            - mountPath: /data/xignren_share
+              name: xingren-share
+           {{- end }}   
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: logs
+          hostPath:
+            path: /data/logs/{{ include "fullname" . }}
+        {{- if .Values.nfsVolumes }}
+        - name: xingren-share
+          nfs:
+            path: {{ .Values.nfsVolumes.path }}
+            server: {{ .Values.nfsVolumes.server }}
+        {{- end }}
