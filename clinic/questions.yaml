@@ -41,7 +41,7 @@ questions:
     type: int
     description: "LoadBalancer expose port"
     label: LoadBalancer expose port
-  show_subquestion_if: "LoadBalancer"
+  show_subquestion_if: "LoadBalancer(Internal)"
   - variable: service.qcloudInternalLoadBalancerSubnetid
     type: string
     description: "qcloud internal lb subnetid"
