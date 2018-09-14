@@ -1,2 +1,0 @@
-# Mychat
-clinic project
