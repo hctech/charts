@@ -34,12 +34,6 @@ questions:
     max: 32767
     description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
     label: NodePort Http Port
-- variable: resources.limits.cpu
-  default: ""
-  type: string
-  description: "Resource cpu limts"
-  label: Resource cpu limts
-  group: Resource Settings
 - variable: resource.limits.memory
   default: "2G"
   type: string
