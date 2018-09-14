@@ -28,7 +28,6 @@ spec:
       labels:
         app: {{ include "name" . }}
         release: {{ .Release.Name }}
-        deploy-timestamp: {{ now }}
         {{- if .Values.xrLogMetadata.enable }}
         log-appname: {{ .Values.xrLogMetadata.appName }}
         log-env: {{ .Values.xrLogMetadata.appEnv }}
