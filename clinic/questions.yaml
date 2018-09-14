@@ -25,7 +25,6 @@ questions:
     - "ClusterIP"
     - "NodePort"
     - "LoadBalancer"
-    - "LoadBalancer(Internal)"
   group: "Services and Load Balancing"
   show_subquestion_if: "NodePort"
   subquestions:
@@ -35,21 +34,6 @@ questions:
     max: 32767
     description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
     label: NodePort Http Port
-  show_subquestion_if: "LoadBalancer"
-  subquestions:
-  - variable: service.port
-    type: int
-    description: "LoadBalancer expose port"
-    label: LoadBalancer expose port
-  show_subquestion_if: "LoadBalancer(Internal)"
-  - variable: service.qcloudInternalLoadBalancerSubnetid
-    type: string
-    description: "qcloud internal lb subnetid"
-    label: qcloud internal lb subnetid
-  - variable: service.port
-    type: int
-    description: "LoadBalancer expose port"
-    label: LoadBalancer expose port
 - variable: resources.limits.cpu
   default: "0"
   type: string
