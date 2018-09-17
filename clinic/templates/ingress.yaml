@@ -24,7 +24,7 @@ spec:
         - path: {{ default "" .path }}
           backend:
             serviceName: {{ include "fullname" $ }}
-            servicePort: {{ .Values.service.port $ }}
+            servicePort: {{ $.Values.service.port }}
   {{- if .tls }}
   tls:
   - hosts:
