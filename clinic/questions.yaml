@@ -1,0 +1,167 @@
+categories:
+- xingren_java
+questions:
+- variable: replicaCount
+  type: int
+  required: true
+  default: 1
+  descripiton: "Pod 副本数" 
+  label: replicaCount
+  group: "Pod 副本"
+- variable: image.repository
+  type: string
+  default: "harbor.xingren.com/xr_prod/clinic"
+  required: true 
+  description: "镜像名"
+  label: 镜像名
+  group: "容器镜像设置"
+- variable: image.tag
+  type: string
+  required: true
+  default: "latest"
+  description: "镜像tag"
+  label: 镜像tag
+  group: "容器镜像设置"
+- variable: service.type
+  show_if: "ingress.enabled=false"
+  type: enum
+  default: "ClusterIP"
+  required: true
+  description: "Service Type"
+  label: Service Type
+  options:
+    - "ClusterIP"
+    - "NodePort"
+    - "LoadBalancer"
+    - "InLoadBalancer"
+  group: "服务发现&负载均衡"
+- variable: service.port
+  show_if: "ingress.enabled=false"
+  type: int
+  required: true
+  description: "service port"
+  label: service port
+  group: "服务发现&负载均衡"
+- variable: service.nodePort
+  show_if: "ingress.enabled=false&service.type=NodePort"
+  type: int
+  required: true
+  min: 30000
+  max: 32767
+  description: "NodePort"
+  label: NodePort
+  group: "服务发现&负载均衡"
+- variable: service.qcloudInternalLoadBalancerSubnetid
+  show_if: "ingress.enabled=false&service.type=InLoadBalancer"
+  type: string
+  description: "Qcloud VPC Internal LoadBalancer Subnet Id"
+  label: LoadBalancer Subnet Id
+  group: "服务发现&负载均衡"
+- variable: ingress.enabled
+  type: boolean
+  default: "false"
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  label: Expose app using Layer 7 Load Balancer
+  group: "服务发现&负载均衡"
+  show_subquestion_if: true
+  subquestions:
+  - variable: ingress.hosts[0].name
+    default: "xip.io"
+    description: "Hostname to your application installation"
+    type: hostname
+    required: true
+    label: Hostname
+    group: "服务发现&负载均衡"
+- variable: resources.limits.enable
+  default: "true"
+  type: boolean
+  description: "资源使用限制"
+  label: 资源限制
+  group: "资源设置"
+  show_subquestion_if: true
+  subquestions:
+  - variable: resources.limits.cpu
+    type: string
+    description: "CPU使用限制 (为空标示不限制)"
+    lable: cpu limits
+    group: "资源设置"
+  - variable: resources.limits.memory
+    type: string
+    default: "2G"
+    description: "Memory使用限制 (为空标示不限制)"
+    lable: memory limits
+    group: "资源设置"
+- variable: resources.requests.enable
+  default: "true"
+  type: boolean
+  description: "运行最小所需的资源"
+  label: 请求资源
+  group: "资源设置"
+  show_subquestion_if: true
+  subquestions:
+  - variable: resources.requests.cpu
+    type: string
+    default: "0.5"
+    description: "CPU需要资源 (为空标示不设置)"
+    lable: cpu requests
+    group: "资源设置"
+  - variable: resources.requests.memory
+    type: string
+    default: "2G"
+    description: "Memory需要资源 (为空标示不设置)"
+    lable: memory requests
+    group: "资源设置"
+- variable: nfsVolumes.create
+  default: "true"
+  type: boolean
+  description: "NFS共享目录"
+  label: 是否挂载NFS目录
+  group: "NFS Volume 设置"
+  show_subquestion_if: true
+  subquestions:
+  - variable: nfsVolumes.path
+    default: "10.10.9.142"
+    description: "nfs server"
+    lable: nfs server
+  - variable: nfsVolumes.path
+    default: "/xingren_share"
+    descirble: "nfs path"
+    lable: nfs path
+    options:
+      - "/xingren_share"
+      - "/xingren_share_test"
+- variable: jvmExporter.enable
+  default: "true"
+  type: boolean
+  description: "Prometheus 监控JMX暴露端口"
+  label: 是否开启Prometheus JMX监控
+  group: "Prometheus Monitor"
+  show_subquestion_if: true
+  subquestions:
+  - variable: jvmExporter.port
+    default: 8888
+    description: "Prometheus scrape jmx_exporter port"
+    lable: Prometheus scrape jmx_exporter port
+- variable: xrLogMetadata.enable
+  default: "true"
+  type: boolean
+  description: "杏仁日志自定义标示"
+  label: 是否添加杏仁日志自定义标示
+  group: "杏仁日志设置"
+  show_subquestion_if: true
+  subquestions:
+  - variable: xrLogMetadata.appEnv
+    description: "应用环境名"
+    lable: app env
+  - variable: xrLogMetadata.appName
+    description: "应用名"
+    lable: app name
+  - variable: xrLogMetadata.logFormatType
+    default: "java"
+    description: "应用日志类型"
+    lable: log format type
+- variable: jvmArguments
+  type: string
+  description: "jvm启动参数"
+  label: jvm arguments
+  group: "JVM 参数设置"

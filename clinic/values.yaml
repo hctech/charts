@@ -1,0 +1,109 @@
+# Default values. 
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: harbor.xingren.com/xr_prod/clinic
+  tag: latest
+  pullPolicy: Always
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 3000
+  targetPort: 3000
+  # If service.type eq. NodePort
+  nodePort: ""
+  # If service.type eq. LoadBalancer
+  # And LoadBalacner is qcloud internal
+  qcloudInternalLoadBalancerSubnetid: ""
+
+ingress:
+  enabled: false
+  hosts:
+  - name: example.local
+    tls: false
+    # If TLS is set to true, you must declare what secret will store the key/certificate for TLS
+    tlsSecret: example.local-tls
+    annotations:
+    #  kubernetes.io/ingress.class: nginx
+    #  kubernetes.io/tls-acme: true
+
+secrets:
+## If you're providing your own certificates, please use this to add the certificates as secrets
+## key and certificate should start with -----BEGIN CERTIFICATE----- or
+## -----BEGIN RSA PRIVATE KEY-----
+##
+## name should line up with a tlsSecret set further up
+## If you're using kube-lego, this is unneeded, as it will create the secret for you if it is not set
+##
+## It is also possible to create and manage the certificates outside of this helm chart
+## Please see README.md for more information
+# - name: example.local-tls
+#   key:
+#   certificate:
+
+resources:
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  limits:
+    enable: true
+    cpu: ""
+    memory: "2G"
+  requests:
+    enable: true 
+    cpu: "0.5"
+    memory: "2G"
+
+nodeSelector: {"role": "worker"}
+
+# Configure extra option for liveness and readdiness probes
+livenessProbe:
+  initialDelaySeconds: 60
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 2
+  successThreshold: 1
+
+readlinessProbe:
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 2
+  successThreshold: 1
+
+affinity: {}
+
+
+## Below settdings is only use in my company
+##
+
+# nfs volume as share dir
+nfsVolumes:
+  create: true
+  path: /xingren_share
+  server: 10.10.9.142
+
+
+# Prometheus scrape jmx_exporter
+# https://github.com/prometheus/jmx_exporter
+jvmExporter:
+  enable: true
+  port: 8888
+
+# Add some log metadata
+# log collect workflow: flunted -> ckafka -> logstash -> ES
+xrLogMetadata:
+  enable: true
+  appEnv: prod
+  appName: clinic
+  logFormatType: java
+
+# JVM arguments
+jvmArguments: ""
