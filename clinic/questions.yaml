@@ -2,9 +2,9 @@ categories:
 - xingren_java
 questions:
 - variable: replicaCount
-  type: int
+  type: string
   required: true
-  default: 1
+  default: "1"
   descripiton: "Pod 副本数" 
   label: replicaCount
   group: "Pod 副本"
@@ -76,7 +76,7 @@ questions:
   type: boolean
   description: "资源使用限制"
   label: 资源限制
-  group: "资源设置"
+  group: "资源limits"
   show_subquestion_if: true
   subquestions:
   - variable: resources.limits.cpu
@@ -93,7 +93,7 @@ questions:
   type: boolean
   description: "运行最小所需的资源"
   label: 请求资源
-  group: "资源设置"
+  group: "资源requests"
   show_subquestion_if: true
   subquestions:
   - variable: resources.requests.cpu
@@ -115,10 +115,12 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable: nfsVolumes.path
+    type: string
     default: "10.10.9.142"
     description: "nfs server"
     lable: nfs server
   - variable: nfsVolumes.path
+    type: string
     default: "/xingren_share"
     descirble: "nfs path"
     lable: nfs path
@@ -134,6 +136,7 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable: jvmExporter.port
+    type: string
     default: 8888
     description: "Prometheus scrape jmx_exporter port"
     lable: Prometheus scrape jmx_exporter port
@@ -146,12 +149,15 @@ questions:
   show_subquestion_if: true
   subquestions:
   - variable: xrLogMetadata.appEnv
+    type: string
     description: "应用环境名"
     lable: app env
   - variable: xrLogMetadata.appName
+    type: string
     description: "应用名"
     lable: app name
   - variable: xrLogMetadata.logFormatType
+    type: string
     default: "java"
     description: "应用日志类型"
     lable: log format type
