@@ -5,9 +5,9 @@ questions:
   type: string
   required: true
   default: "1"
-  descripiton: "Pod 副本数" 
+  descripiton: "Pod Replics" 
   label: replicaCount
-  group: "Pod 副本"
+  group: "Pod Replics"
 - variable: image.repository
   type: string
   default: "harbor.xingren.com/xr_prod/clinic"
