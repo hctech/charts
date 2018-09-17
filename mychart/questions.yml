@@ -36,6 +36,7 @@ questions:
     lable: NodePort
     group: "Service and Load Balancher"
   show_subquestion_if: "LoadBalancer"
+  subquestions:
   - variable: service.port
     type: int
     required: true
@@ -43,6 +44,7 @@ questions:
     lable: Load Balancer Port
     group: "Service and Load Balancher"
   show_subquestion_if: "InLoadBalancer"
+  subquestions:
   - variable: service.port
     type: init
     required: true
@@ -55,5 +57,3 @@ questions:
     description: "Internal Load Balacher Network Id"
     label: "Network Id"
     group: "Service and Load Balancher"
-
-
