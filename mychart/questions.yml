@@ -13,3 +13,47 @@ questions:
   description: "镜像tag"
   label: 镜像tag
   group: 镜像设置
+- variable: service.type
+  type: enum
+  required: true
+  default: "ClusterIP"
+  description: "Service Type"
+  lable: Service Type
+  group: "Service and Load Balancher"
+  options:
+    - "ClusterIP"
+    - "NodePort"
+    - "LoadBalancer"
+    - "InLoadBalancer"
+  show_subquestion_if: "NodePort"
+  subquestions:
+  - variable: service.nodePort
+    type: int
+    required: true
+    min: 30000
+    max: 32767
+    description: "NodePort"
+    lable: NodePort
+    group: "Service and Load Balancher"
+  show_subquestion_if: "LoadBalancer"
+  - variable: service.port
+    type: int
+    required: true
+    description: "Load Balancer Port"
+    lable: Load Balancer Port
+    group: "Service and Load Balancher"
+  show_subquestion_if: "InLoadBalancer"
+  - variable: service.port
+    type: init
+    required: true
+    description: "Internal Load Balancer Port"
+    label: Internal Load Balancer Port
+    group: "Service and Load Balancher"
+  - variable: service.internalSubNetId
+    type: string
+    required: true
+    description: "Internal Load Balacher Network Id"
+    label: "Network Id"
+    group: "Service and Load Balancher"
+
+
