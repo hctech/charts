@@ -28,7 +28,6 @@ spec:
       labels:
         app: {{ include "name" . }}
         release: {{ .Release.Name }}
-        deploy-timestamp: {{ now }}
         {{- if .Values.xrLogMetadata.enable }}
         log-appname: {{ .Values.xrLogMetadata.appName }}
         log-env: {{ .Values.xrLogMetadata.appEnv }}
@@ -82,7 +81,7 @@ spec:
           volumeMounts:
             - mountPath: /data/logs
               name: logs
-           {{- if .Values.nfsVolumes }}
+           {{- if .Values.nfsVolumes.create }}
             - mountPath: /data/xignren_share
               name: xingren-share
            {{- end }}   
