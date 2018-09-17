@@ -1,0 +1,15 @@
+categories:
+- huangchao
+questions:
+- variable: image.repository
+  type: string
+  required: true
+  description: "镜像名字"
+  label: 镜像名
+  group: 镜像设置
+- variable: image.tag
+  type: string
+  required: true
+  description: "镜像tag"
+  label: 镜像tag
+  group: 镜像设置
