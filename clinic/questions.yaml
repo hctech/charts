@@ -34,14 +34,14 @@ questions:
     - "NodePort"
     - "LoadBalancer"
     - "InLoadBalancer"
-  group: "Service&LoadBalancer"
+  group: "Service AND LoadBalancer"
 - variable: service.port
   show_if: "ingress.enabled=false"
   type: int
   required: true
   description: "service port"
   label: service port
-  group: "Service&LoadBalancer"
+  group: "Service AND LoadBalancer"
 - variable: service.nodePort
   show_if: "ingress.enabled=false&&service.type=NodePort"
   type: int
@@ -50,19 +50,19 @@ questions:
   max: 32767
   description: "NodePort"
   label: NodePort
-  group: "Service&LoadBalancer"
+  group: "Service AND LoadBalancer"
 - variable: service.qcloudInternalLoadBalancerSubnetid
   show_if: "ingress.enabled=false&&service.type=InLoadBalancer"
   type: string
   description: "Qcloud VPC Internal LoadBalancer Subnet Id"
   label: LoadBalancer Subnet Id
-  group: "Service&LoadBalancer"
+  group: "Service AND LoadBalancer"
 - variable: ingress.enabled
   type: boolean
   default: "false"
   description: "Expose app using Layer 7 Load Balancer - ingress"
   label: Expose app using Layer 7 Load Balancer
-  group: "Service&LoadBalancer"
+  group: "Service AND LoadBalancer"
   show_subquestion_if: true
   subquestions:
   - variable: ingress.hosts[0].name
