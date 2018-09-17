@@ -37,7 +37,7 @@ questions:
   group: "Service AND LoadBalancer"
 - variable: service.port
   show_if: "ingress.enabled=false"
-  type: int
+  type: string
   required: true
   description: "service port"
   label: service port
