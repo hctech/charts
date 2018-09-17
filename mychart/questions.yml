@@ -18,7 +18,7 @@ questions:
   required: true
   default: "ClusterIP"
   description: "Service Type"
-  lable: Service Type
+  label: Service Type
   group: "Service and Load Balancher"
   options:
     - "ClusterIP"
