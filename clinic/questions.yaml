@@ -43,7 +43,7 @@ questions:
   label: service port
   group: "服务发现&负载均衡"
 - variable: service.nodePort
-  show_if: "ingress.enabled=false&service.type=NodePort"
+  show_if: "ingress.enabled=false&&service.type=NodePort"
   type: int
   required: true
   min: 30000
@@ -52,7 +52,7 @@ questions:
   label: NodePort
   group: "服务发现&负载均衡"
 - variable: service.qcloudInternalLoadBalancerSubnetid
-  show_if: "ingress.enabled=false&service.type=InLoadBalancer"
+  show_if: "ingress.enabled=false&&service.type=InLoadBalancer"
   type: string
   description: "Qcloud VPC Internal LoadBalancer Subnet Id"
   label: LoadBalancer Subnet Id
@@ -71,7 +71,6 @@ questions:
     type: hostname
     required: true
     label: Hostname
-    group: "服务发现&负载均衡"
 - variable: resources.limits.enable
   default: "true"
   type: boolean
@@ -84,13 +83,11 @@ questions:
     type: string
     description: "CPU使用限制 (为空标示不限制)"
     lable: cpu limits
-    group: "资源设置"
   - variable: resources.limits.memory
     type: string
     default: "2G"
     description: "Memory使用限制 (为空标示不限制)"
     lable: memory limits
-    group: "资源设置"
 - variable: resources.requests.enable
   default: "true"
   type: boolean
@@ -104,13 +101,11 @@ questions:
     default: "0.5"
     description: "CPU需要资源 (为空标示不设置)"
     lable: cpu requests
-    group: "资源设置"
   - variable: resources.requests.memory
     type: string
     default: "2G"
     description: "Memory需要资源 (为空标示不设置)"
     lable: memory requests
-    group: "资源设置"
 - variable: nfsVolumes.create
   default: "true"
   type: boolean
