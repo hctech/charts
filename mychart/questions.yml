@@ -33,7 +33,7 @@ questions:
     min: 30000
     max: 32767
     description: "NodePort"
-    lable: NodePort
+    label: NodePort
     group: "Service and Load Balancher"
   show_subquestion_if: "LoadBalancer"
   subquestions:
@@ -41,12 +41,12 @@ questions:
     type: int
     required: true
     description: "Load Balancer Port"
-    lable: Load Balancer Port
+    label: Load Balancer Port
     group: "Service and Load Balancher"
   show_subquestion_if: "InLoadBalancer"
   subquestions:
   - variable: service.port
-    type: init
+    type: int
     required: true
     description: "Internal Load Balancer Port"
     label: Internal Load Balancer Port
