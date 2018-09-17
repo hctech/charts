@@ -25,35 +25,39 @@ questions:
     - "NodePort"
     - "LoadBalancer"
     - "InLoadBalancer"
-  show_subquestion_if: "NodePort"
-  subquestions:
-  - variable: service.nodePort
-    type: int
-    required: true
-    min: 30000
-    max: 32767
-    description: "NodePort"
-    label: NodePort
-    group: "Service and Load Balancher"
-  show_subquestion_if: "LoadBalancer"
-  subquestions:
-  - variable: service.port
-    type: int
-    required: true
-    description: "Load Balancer Port"
-    label: Load Balancer Port
-    group: "Service and Load Balancher"
-  show_subquestion_if: "InLoadBalancer"
-  subquestions:
-  - variable: service.port
-    type: int
-    required: true
-    description: "Internal Load Balancer Port"
-    label: Internal Load Balancer Port
-    group: "Service and Load Balancher"
-  - variable: service.internalSubNetId
-    type: string
-    required: true
-    description: "Internal Load Balacher Network Id"
-    label: "Network Id"
-    group: "Service and Load Balancher"
+- variable: service.port
+  type: int
+  required: true
+  description: "ClusterIP Port"
+  label: ClusterIP Port 
+  group: "Service and Load Balancher"
+- variable: service.nodePort
+  show_if: "service.type=NodePort"
+  type: int
+  min: 30000
+  max: 32768
+  required: true
+  description: "NodePort"
+  label: NodePort 
+  group: "Service and Load Balancher"
+- variable: service.loadBalancerPort
+  show_if: "service.type=LoadBalancer"
+  type: int
+  required: true
+  description: "LB Port"
+  label: LB Port
+  group: "Service and Load Balancher"
+- variable: service.loadBalancerPort
+  show_if: "service.type=InLoadBalancer"
+  type: int
+  required: true
+  description: "LB Port"
+  label: LB Port
+  group: "Service and Load Balancher"
+- variable: service.subNetId
+  show_if: "service.type=LoadBalancer"
+  type: string
+  required: true
+  description: "qcloud vpc sub network id"
+  label: sub network id
+  group: "Service and Load Balancher"
